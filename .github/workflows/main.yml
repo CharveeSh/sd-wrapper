@@ -1,0 +1,35 @@
+name: sd-wrapper
+on:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:  
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Configure SSH
+        run: |
+          mkdir -p ~/.ssh
+          echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -t rsa $EC2_HOST >> ~/.ssh/known_hosts
+          chmod 644 ~/.ssh/known_hosts
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+
+      - name: Deploy to EC2
+        run: |
+          scp -r -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ./ $EC2_USERNAME@$EC2_HOST
+          ssh -i ~/.ssh/id_rsa $EC2_USERNAME@$EC2_HOST "cd  && git pull"
+          ssh -i ~/.ssh/id_rsa $EC2_USERNAME@$EC2_HOST "cd  && npm install && npm run build && npm start"
+        env:
+          EC2_HOST: ${{ secrets.EC2_HOST }}
+          EC2_USERNAME: ${{ secrets.EC2_USERNAME }}

@@ -7,7 +7,7 @@ export const textToImage = async (name: string, description: string, mood: strin
   const headers = {
     "content-type": "application/json",
     Accept: "application/json",
-    Authorization: "Bearer ",
+    Authorization: `Bearer ${process.env.NEXT_PUBLIC_SD_KEY}`,
     "Access-Control-Allow-Origin": "http://localhost:3000/",
   };
 

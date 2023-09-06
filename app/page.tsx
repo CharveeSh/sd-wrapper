@@ -9,7 +9,7 @@ export default function Home() {
   let [description, setDescription] = useState('naruto is eating ramen at shop alone.');
   let [mood, setMood] = useState('happy');
   let [loading, setLoading] = useState(false);
-  let [img, setImage] = useState(demo);
+  let [img, setImage] = useState('');
   // Generate an image of [Character], [one or two sentences describing the character's activity]. The character should be [constant description, e.g., in a casual outfit] and situated in a [constant background description, e.g., urban street] with [constant background elements, e.g., buildings, trees]. Ensure that the image captures the essence of [constant mood or emotion, e.g., excitement] and maintains a [constant artistic style, e.g., vibrant colors].
 
   const handleGenerate = async () => {

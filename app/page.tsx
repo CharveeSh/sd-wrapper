@@ -2,7 +2,7 @@
 import Image from 'next/image';
 import { useState } from 'react';
 import { textToImage } from '../utils/generateImage';
-import { UilImageDownload } from '@iconscout/react-unicons'
+import { UilImageDownload } from '@iconscout/react-unicons';
 
 export default function Home() {
   let [name, setName] = useState('naruto');
